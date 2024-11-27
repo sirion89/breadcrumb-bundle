@@ -2,6 +2,7 @@
 
 namespace Thormeier\BreadcrumbBundle\Routing;
 
+use LogicException;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Routing\Route;
@@ -12,26 +13,23 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class BreadcrumbAttachLoader extends Loader
 {
-    /**
-     * @var LoaderInterface
-     */
-    private $routerLoader;
+
+
+    private LoaderInterface $routerLoader;
 
     /**
      * Attaches breadcrumb tree to every routes default config
-     *
-     * @param LoaderInterface $routerLoader
      */
     public function __construct(LoaderInterface $routerLoader)
     {
         $this->routerLoader = $routerLoader;
+        parent::__construct();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function load($resource, $type = null)
-    {
+    public function load($resource, $type = null): mixed {
         $routeCollection = $this->routerLoader->load($resource, $type);
 
         foreach ($routeCollection->all() as $key => $route) {
@@ -54,23 +52,14 @@ class BreadcrumbAttachLoader extends Loader
      *
      * @return bool True if this class supports the given resource, false otherwise
      */
-    public function supports($resource, $type = null)
-    {
+    public function supports(mixed $resource, ?string $type = null): bool {
         return $this->routerLoader->supports($resource, $type);
     }
 
     /**
      * Builds an array of breadcrumbs for the given route recursively
-     *
-     * @param Route           $route
-     * @param string          $routeKey
-     * @param RouteCollection $routeCollection
-     * @param array           $rawBreadcrumbsCollection
-     *
-     * @return array
      */
-    private function getBreadcrumbs(Route $route, $routeKey, RouteCollection $routeCollection, $rawBreadcrumbsCollection = array())
-    {
+    private function getBreadcrumbs(Route $route, string $routeKey, RouteCollection $routeCollection, array $rawBreadcrumbsCollection = array()): array {
         $breadcrumbOptions = $route->getOption('breadcrumb');
 
         // No label, no crumb.
@@ -87,8 +76,8 @@ class BreadcrumbAttachLoader extends Loader
         );
 
         // If this route already is in the raw collection, there's likely a circular breadcrumb, which will cause memory exhaustion
-        if (false !== array_search($rawCrumb, $rawBreadcrumbsCollection)) {
-            throw new \LogicException(sprintf(
+        if (in_array($rawCrumb, $rawBreadcrumbsCollection)) {
+            throw new LogicException(sprintf(
                 'Circular breadcrumbs detected at route "%s"',
                 $routeKey
             ));

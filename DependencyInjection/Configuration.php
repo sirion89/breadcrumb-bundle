@@ -10,25 +10,21 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  *
  * @codeCoverageIgnore
  */
-class Configuration implements ConfigurationInterface
-{
+class Configuration implements ConfigurationInterface {
     /**
      * @return TreeBuilder
      */
-    public function getConfigTreeBuilder()
-    {
+    public function getConfigTreeBuilder(): TreeBuilder {
         $treeBuilder = new TreeBuilder('thormeier_breadcrumb');
-        $rootNode = method_exists(TreeBuilder::class, 'getRootNode')
-            ? $treeBuilder->getRootNode() : $treeBuilder->root('thormeier_breadcrumb');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
-                ->scalarNode('template')->defaultValue('@ThormeierBreadcrumb/breadcrumbs.html.twig')->end()
-                ->scalarNode('model_class')->defaultValue('Thormeier\BreadcrumbBundle\Model\Breadcrumb')->end()
-                ->scalarNode('collection_class')->defaultValue('Thormeier\BreadcrumbBundle\Model\BreadcrumbCollection')->end()
-                ->scalarNode('provider_service_id')->defaultValue('thormeier_breadcrumb.breadcrumb_provider.default')->end()
-            ->end()
-        ;
+            ->scalarNode('template')->defaultValue('@ThormeierBreadcrumb/breadcrumbs.html.twig')->end()
+            ->scalarNode('model_class')->defaultValue('Thormeier\BreadcrumbBundle\Model\Breadcrumb')->end()
+            ->scalarNode('collection_class')->defaultValue('Thormeier\BreadcrumbBundle\Model\BreadcrumbCollection')->end()
+            ->scalarNode('provider_service_id')->defaultValue('thormeier_breadcrumb.breadcrumb_provider.default')->end()
+            ->end();
 
         return $treeBuilder;
     }

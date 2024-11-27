@@ -11,8 +11,6 @@ interface BreadcrumbProviderInterface
 {
     /**
      * Get the BreadcrumCollection for the current requests route
-     *
-     * @return BreadcrumbCollectionInterface
      */
-    public function getBreadcrumbs();
+    public function getBreadcrumbs(): BreadcrumbCollectionInterface;
 }

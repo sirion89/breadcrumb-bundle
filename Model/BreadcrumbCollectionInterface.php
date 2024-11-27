@@ -7,53 +7,22 @@ namespace Thormeier\BreadcrumbBundle\Model;
  */
 interface BreadcrumbCollectionInterface
 {
-    /**
-     * @param BreadcrumbInterface $breadcrumb
-     *
-     * @return $this
-     */
-    public function addBreadcrumb(BreadcrumbInterface $breadcrumb);
 
-    /**
-     * @param BreadcrumbInterface $newBreadcrumb
-     * @param BreadcrumbInterface $positionBreadcrumb
-     *
-     * @return $this
-     */
-    public function addBreadcrumbBeforeCrumb(BreadcrumbInterface $newBreadcrumb, BreadcrumbInterface $positionBreadcrumb);
+    public function addBreadcrumb(BreadcrumbInterface $breadcrumb): static;
 
-    /**
-     * @param BreadcrumbInterface $newBreadcrumb
-     * @param BreadcrumbInterface $positionBreadcrumb
-     *
-     * @return $this
-     */
-    public function addBreadcrumbAfterCrumb(BreadcrumbInterface $newBreadcrumb, BreadcrumbInterface $positionBreadcrumb);
 
-    /**
-     * @param BreadcrumbInterface $breadcrumb
-     * @param int                 $position
-     *
-     * @return $this
-     */
-    public function addBreadcrumbAtPosition(BreadcrumbInterface $breadcrumb, $position);
+    public function addBreadcrumbBeforeCrumb(BreadcrumbInterface $newBreadcrumb, BreadcrumbInterface $positionBreadcrumb): static;
 
-    /**
-     * @param BreadcrumbInterface $breadcrumb
-     *
-     * @return $this
-     */
-    public function addBreadcrumbToStart(BreadcrumbInterface $breadcrumb);
 
-    /**
-     * @return array
-     */
-    public function getAll();
+    public function addBreadcrumbAfterCrumb(BreadcrumbInterface $newBreadcrumb, BreadcrumbInterface $positionBreadcrumb): static;
 
-    /**
-     * @param string $route
-     *
-     * @return null|BreadcrumbInterface
-     */
-    public function getBreadcrumbByRoute($route);
+
+    public function addBreadcrumbAtPosition(BreadcrumbInterface $breadcrumb, $position): static;
+
+
+    public function addBreadcrumbToStart(BreadcrumbInterface $breadcrumb): static;
+
+    public function getAll(): array;
+
+    public function getBreadcrumbByRoute(string $route): ?BreadcrumbInterface;
 }

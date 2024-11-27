@@ -12,7 +12,7 @@ This bundle is heavily inspired by the inactive https://github.com/xi-project/xi
 
 ### Step 1: Composer require
 
-    $ php composer.phar require "thormeier/breadcrumb-bundle"
+    $ composer require thormeier/breadcrumb-bundle
 
 ### Step2: Enable the bundle in the kernel
 
@@ -83,7 +83,7 @@ If the current route is `acme_demo_catalogue`, the breadcrumbs would for instanc
 
     Home > Our Catalogue
 
-Since the configuration of the breadcrumbs happens on routing config, it's generally agnostic from _how_ the routing 
+Since the configuration of the breadcrumbs happens on routing config, it's generally agnostic from _how_ the routing
 configuration happens. This means that configuring breadcrumbs for instance via annotations is perfectly possible:
 
     /**
@@ -104,7 +104,7 @@ The configuration can also be done in XML and PHP.
 
 ### Dynamic routes
 
-If you happen to have dynamic routes or dynamic translations that you need in your breadcrumbs, they 
+If you happen to have dynamic routes or dynamic translations that you need in your breadcrumbs, they
 can be defined like so:
 
     # routing.yml
@@ -116,12 +116,12 @@ can be defined like so:
                 label: 'Produkt: %%name%%'
                 parent_route: acme_demo_catalogue
 
-(This example uses a string with a placeholder in the routing directly. You can also define the label text in a 
-translation file and only use the translation key as the label. The template will handle the translation and 
+(This example uses a string with a placeholder in the routing directly. You can also define the label text in a
+translation file and only use the translation key as the label. The template will handle the translation and
 replacing.)
 
-**Notice the double `%` to escape the parameter in the label. This needs to be done, because `routing.yml` 
-is being parsed by the Symfony container and recognizes constructs, such as `%name%` as a container parameter 
+**Notice the double `%` to escape the parameter in the label. This needs to be done, because `routing.yml`
+is being parsed by the Symfony container and recognizes constructs, such as `%name%` as a container parameter
 and tries to inject those. The double-`%` escapes it, the template is handling the rest.**
 
 You can then set parameters for both directly on the `Breadcrumb` object, for instance:
@@ -153,7 +153,7 @@ Please note that the breadcrumb must be defined on the route in order to set par
 
 ### Dynamic breadcrumbs
 
-If you happen to have a dynamic routing tree, for instance a tree of category pages that can go infinitely deep, 
+If you happen to have a dynamic routing tree, for instance a tree of category pages that can go infinitely deep,
 you can add breadcrumbs that are not defined on a route on the fly. For instance like this:
 
     <?php
@@ -209,12 +209,12 @@ If you want to use a custom template, add the following to your config.yml
     thormeier_breadcrumb:
         template: 'my twig template path'
 
-Your custom breadcrumb template receives a variable called `breadcrumbs` that is a collection that represents your 
+Your custom breadcrumb template receives a variable called `breadcrumbs` that is a collection that represents your
 breadcrumbs, ordered by highest in the tree to lowest.
 
-A single `breadcrumb` has the fields `route`, `routeParameters`, `label` and `labelParameters`. `route` and `routeParameters` 
-are used to generate a path in twig, i.e. `path(breadcrumb.route, breadcrumb.routeParameters)`, whereas `label` and 
-`labelParameters` are used to generate the text for the breadcrumb, i.e. 
+A single `breadcrumb` has the fields `route`, `routeParameters`, `label` and `labelParameters`. `route` and `routeParameters`
+are used to generate a path in twig, i.e. `path(breadcrumb.route, breadcrumb.routeParameters)`, whereas `label` and
+`labelParameters` are used to generate the text for the breadcrumb, i.e.
 `{{ (breadcrumb.label)|trans(breadcrumb.labelParameters) }}`
 
 Your custom template might look something like this:
@@ -235,8 +235,8 @@ Have a look at `Resources/views/breadcrumbs.html.twig` and `Resources/views/brea
 
 ### Customize implementations
 
-The model class and/or its collection can be replaced by own implementations, that implement the 
-`Thormeier\BreadcrumbBundle\Model\BreadcrumbInterface` and 
+The model class and/or its collection can be replaced by own implementations, that implement the
+`Thormeier\BreadcrumbBundle\Model\BreadcrumbInterface` and
 `Thormeier\BreadcrumbBundle\Model\BreadcrumbCollectionInterface`:
 
     # config.yml
@@ -252,10 +252,10 @@ The provider service ID can be replaced by setting the parameter `provider_servi
 
 ### Caching
 
-This bundle uses the routing cache to store breadcrumb lists per route on `cache:warmup`. They are then turned into 
+This bundle uses the routing cache to store breadcrumb lists per route on `cache:warmup`. They are then turned into
 a `BreadcrumbCollection` on demand.
 
 ## Slides
 
-A slideshow presenting the bundle and explaining some concepts a little further is available on slideshare: 
+A slideshow presenting the bundle and explaining some concepts a little further is available on slideshare:
 [http://www.slideshare.net/Thormeier/thormeierbreadcrumbbundle](http://www.slideshare.net/Thormeier/thormeierbreadcrumbbundle)

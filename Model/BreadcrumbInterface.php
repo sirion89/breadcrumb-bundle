@@ -7,45 +7,24 @@ namespace Thormeier\BreadcrumbBundle\Model;
  */
 interface BreadcrumbInterface
 {
-    /**
-     * @param string $label
-     * @param string $route
-     * @param array  $routeParameters
-     * @param array  $labelParameters
-     */
-    public function __construct($label, $route, array $routeParameters = array(), array $labelParameters = array());
 
-    /**
-     * @return string
-     */
-    public function getRoute();
+    public function __construct(string $label, string $route, array $routeParameters = array(), array $labelParameters = array());
 
-    /**
-     * @return string
-     */
-    public function getLabel();
 
-    /**
-     * @param array $routeParameters
-     *
-     * @return $this
-     */
-    public function setRouteParameters(array $routeParameters);
+    public function getRoute(): string;
 
-    /**
-     * @param array $labelParameters
-     *
-     * @return $this
-     */
-    public function setLabelParameters(array $labelParameters);
 
-    /**
-     * @return array
-     */
-    public function getRouteParameters();
+    public function getLabel(): string;
 
-    /**
-     * @return array
-     */
-    public function getLabelParameters();
+
+    public function setRouteParameters(array $routeParameters): static;
+
+
+    public function setLabelParameters(array $labelParameters): static;
+
+
+    public function getRouteParameters(): array;
+
+
+    public function getLabelParameters(): array;
 }
