@@ -1,32 +1,50 @@
 services:
   _defaults:
-    autowire: true       # Enable autowiring
-    autoconfigure: true  # Enable autoconfiguration
-    public: false        # Hide services by default (unless specifically marked as public)
+    autowire: true       # Enable autowiring (Symfony will automatically inject dependencies based on type hints)
+    autoconfigure: true  # Enable autoconfiguration (Symfony will automatically add the appropriate tags for services)
+    public: false        # Services are not public by default (unless explicitly marked)
 
-  # BreadcrumbProvider Service (Autowired)
+  # Breadcrumb Provider (Autowired and Autoconfigured)
   Thormeier\BreadcrumbBundle\Provider\BreadcrumbProvider:
     public: true
     arguments:
-      - '%thormeier_breadcrumb.class.model%'      # Inject model class parameter
-      - '%thormeier_breadcrumb.class.collection%' # Inject collection class parameter
+      - '%thormeier_breadcrumb.class.model%'      # Inject the model class parameter
+      - '%thormeier_breadcrumb.class.collection%' # Inject the collection class parameter
     tags:
       - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
-  # BreadcrumbExtension Service (Autowired)
+  # Breadcrumb Extension (Autowired and Autoconfigured)
   Thormeier\BreadcrumbBundle\Twig\BreadcrumbExtension:
     arguments:
-      - '@Thormeier\BreadcrumbBundle\Provider\BreadcrumbProvider'  # Inject breadcrumb provider
-      - '%thormeier_breadcrumb.template%'  # Inject template parameter
+      - '@Thormeier\BreadcrumbBundle\Provider\BreadcrumbProvider'  # Inject breadcrumb provider service
+      - '%thormeier_breadcrumb.template%'  # Inject the template parameter
     tags:
       - { name: twig.extension }
 
-  # Inner AttachBreadcrumbLoader Service (Autowired)
-  Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader\Inner:
-    class: Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader
-    # No arguments needed for inner loader unless explicitly required
+  # Attach Breadcrumb Loader (Inner service, autowire to avoid defining a separate ID for it)
+  thormeier_breadcrumb.routing.attach_breadcrumb_loader.inner:
+    alias: 'routing.loader'  # Alias the inner loader to the original routing.loader service
 
-  # Main AttachBreadcrumbLoader Service (Autowired)
+  # Main Attach Breadcrumb Loader (Autowired and Autoconfigured)
   Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader:
     arguments:
-      - '@Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader\Inner'  # Inject the inner service
+      - '@thormeier_breadcrumb.routing.attach_breadcrumb_loader.inner'  # Inject the inner service (alias of routing.loader)
+    # This service will use the inner service for loading routes
+
+  # Aliases to maintain backward compatibility with old service IDs
+
+  # Alias for breadcrumb provider to maintain backward compatibility
+  thormeier_breadcrumb.breadcrumb_provider.default:
+    alias: 'Thormeier\BreadcrumbBundle\Provider\BreadcrumbProvider'
+
+  # Alias for breadcrumb provider with old-style service name (shorthand ID)
+  thormeier_breadcrumb.breadcrumb_provider:
+    alias: 'thormeier_breadcrumb.breadcrumb_provider.default'
+
+  # Alias for breadcrumb extension to maintain backward compatibility
+  thormeier_breadcrumb.breadcrumb_extension:
+    alias: 'Thormeier\BreadcrumbBundle\Twig\BreadcrumbExtension'
+
+  # Alias for attach breadcrumb loader to maintain backward compatibility
+  thormeier_breadcrumb.routing.attach_breadcrumb_loader:
+    alias: 'Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader'
