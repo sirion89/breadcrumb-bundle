@@ -4,7 +4,7 @@ services:
     autoconfigure: true  # Enable autoconfiguration for automatic tagging of services
     public: false  # Default to private services
 
-  # BreadcrumbProvider service using FQCN as the service ID
+  # BreadcrumbProvider Service
   Thormeier\BreadcrumbBundle\Provider\BreadcrumbProvider:
     public: true
     arguments:
@@ -13,7 +13,7 @@ services:
     tags:
       - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
-  # BreadcrumbExtension service using FQCN as the service ID
+  # BreadcrumbExtension Service
   Thormeier\BreadcrumbBundle\Twig\BreadcrumbExtension:
     arguments:
       - '@Thormeier\BreadcrumbBundle\Provider\BreadcrumbProvider'  # Inject breadcrumb provider service
@@ -21,7 +21,7 @@ services:
     tags:
       - { name: twig.extension }
 
-  # AttachBreadcrumbLoader service using FQCN as the service ID
+  # AttachBreadcrumbLoader Service
   Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader:
     arguments:
       - '@Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader'  # Inject inner loader service
