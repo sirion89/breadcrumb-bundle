@@ -1,8 +1,8 @@
 services:
   _defaults:
-    autowire: true  # Enable autowiring for all services
-    autoconfigure: true  # Enable autoconfiguration for automatic tagging of services
-    public: false  # Default to private services
+    autowire: true
+    autoconfigure: true
+    public: false
 
   # BreadcrumbProvider Service
   Thormeier\BreadcrumbBundle\Provider\BreadcrumbProvider:
@@ -21,7 +21,6 @@ services:
     tags:
       - { name: twig.extension }
 
-  # AttachBreadcrumbLoader Service
+  # Inner AttachBreadcrumbLoader Service
   Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader:
-    arguments:
-      - '@Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader'  # Inject inner loader service
+    # No arguments needed for inner loader unless explicitly required
