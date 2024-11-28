@@ -41,7 +41,7 @@ class BreadcrumbProvider implements BreadcrumbProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getBreadcrumbs(): ?BreadcrumbCollectionInterface {
+    public function getBreadcrumbs(): BreadcrumbCollectionInterface {
         if (null === $this->breadcrumbs) {
             $this->breadcrumbs = $this->generateBreadcrumbCollectionFromRequest();
         }
