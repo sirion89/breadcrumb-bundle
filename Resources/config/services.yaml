@@ -1,36 +1,27 @@
 services:
-
   _defaults:
-    autowire: true
-    autoconfigure: true
-    public: false
+    autowire: true  # Enable autowiring for all services
+    autoconfigure: true  # Enable autoconfiguration for automatic tagging of services
+    public: false  # Default to private services
 
-  thormeier_breadcrumb.breadcrumb_provider.default:
-    class: Thormeier\BreadcrumbBundle\Provider\BreadcrumbProvider
+  # BreadcrumbProvider service using FQCN as the service ID
+  Thormeier\BreadcrumbBundle\Provider\BreadcrumbProvider:
     public: true
     arguments:
-      - '%thormeier_breadcrumb.class.model%'
-      - '%thormeier_breadcrumb.class.collection%'
+      - '%thormeier_breadcrumb.class.model%'  # Inject parameter for model class
+      - '%thormeier_breadcrumb.class.collection%'  # Inject parameter for collection class
     tags:
       - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
-  # Add alias to make service accessible via another ID
-  thormeier_breadcrumb.breadcrumb_provider:
-    alias: 'thormeier_breadcrumb.breadcrumb_provider.default'
-
-
-  thormeier.breadcrumb.breadcrumb_extension:
-    class: Thormeier\BreadcrumbBundle\Twig\BreadcrumbExtension
+  # BreadcrumbExtension service using FQCN as the service ID
+  Thormeier\BreadcrumbBundle\Twig\BreadcrumbExtension:
     arguments:
-      - '@thormeier_breadcrumb.breadcrumb_provider'
-      - '%thormeier_breadcrumb.template%'
+      - '@Thormeier\BreadcrumbBundle\Provider\BreadcrumbProvider'  # Inject breadcrumb provider service
+      - '%thormeier_breadcrumb.template%'  # Inject template parameter
     tags:
       - { name: twig.extension }
 
-  thormeier_breadcrumb.routing.attach_breadcrumb_loader.inner:
-    class: Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader
-
-  thormeier_breadcrumb.routing.attach_breadcrumb_loader:
-    class: Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader
+  # AttachBreadcrumbLoader service using FQCN as the service ID
+  Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader:
     arguments:
-      - '@thormeier_breadcrumb.routing.attach_breadcrumb_loader.inner'
+      - '@Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader'  # Inject inner loader service
