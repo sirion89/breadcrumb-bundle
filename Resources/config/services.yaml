@@ -1,0 +1,36 @@
+services:
+
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  thormeier_breadcrumb.breadcrumb_provider.default:
+    class: Thormeier\BreadcrumbBundle\Provider\BreadcrumbProvider
+    public: true
+    arguments:
+      - '%thormeier_breadcrumb.class.model%'
+      - '%thormeier_breadcrumb.class.collection%'
+    tags:
+      - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+  # Add alias to make service accessible via another ID
+  thormeier_breadcrumb.breadcrumb_provider:
+    alias: 'thormeier_breadcrumb.breadcrumb_provider.default'
+
+
+  thormeier.breadcrumb.breadcrumb_extension:
+    class: Thormeier\BreadcrumbBundle\Twig\BreadcrumbExtension
+    arguments:
+      - '@thormeier_breadcrumb.breadcrumb_provider'
+      - '%thormeier_breadcrumb.template%'
+    tags:
+      - { name: twig.extension }
+
+  thormeier_breadcrumb.routing.attach_breadcrumb_loader.inner:
+    class: Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader
+
+  thormeier_breadcrumb.routing.attach_breadcrumb_loader:
+    class: Thormeier\BreadcrumbBundle\Routing\BreadcrumbAttachLoader
+    arguments:
+      - '@thormeier_breadcrumb.routing.attach_breadcrumb_loader.inner'

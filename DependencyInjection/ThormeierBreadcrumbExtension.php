@@ -4,6 +4,7 @@ namespace Thormeier\BreadcrumbBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -24,8 +25,8 @@ class ThormeierBreadcrumbExtension extends Extension {
         $container->setParameter('thormeier_breadcrumb.class.model', $config['model_class']);
         $container->setParameter('thormeier_breadcrumb.class.collection', $config['collection_class']);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.xml');
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yaml');
 
         $container->setAlias('thormeier_breadcrumb.breadcrumb_provider', $config['provider_service_id']);
     }
