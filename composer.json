@@ -20,11 +20,11 @@
   },
   "require": {
     "php": ">=8.2",
-    "symfony/framework-bundle": "^7.1"
+    "symfony/framework-bundle": "*"
   },
   "require-dev": {
-    "twig/twig": "^2.12|^3.0",
-    "phpunit/phpunit": "^9.5"
+    "twig/twig": "*",
+    "phpunit/phpunit": "*"
   },
   "suggest": {
     "twig/twig": "To render breadcrumbs with a twig template"
